@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
   if (req.user) { 
-    res.redirect("http://localhost:5173/home")
+    res.redirect("https://ucl-winner.onrender.com/home")
 }
   res.redirect("http://localhost:5173/login");
 };
@@ -39,7 +39,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect( 'http://localhost:5174/home');
+      res.redirect( 'https://ucl-winner.onrender.com/home');
 
     });
   })(req, res, next);
