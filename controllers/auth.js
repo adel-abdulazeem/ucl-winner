@@ -2,11 +2,17 @@ const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
 
+// Helper function for validation errors
+const handleValidationErrors = (validationErrors, req, res) => {
+  req.flash("errors", validationErrors);
+  return res.status(400).json({ errors: validationErrors });
+};
+
 exports.getLogin = (req, res) => {
   if (req.user) { 
-    res.redirect("https://ucl-winner.onrender.com/home")
+    return res.redirect(`${process.env.FRONTEND_URL}/home`);
 }
-  res.redirect("http://localhost:5173/login");
+return res.redirect(`${process.env.FRONTEND_URL}/login`);
 };
 
 exports.postLogin = (req, res, next) => {
@@ -17,10 +23,7 @@ exports.postLogin = (req, res, next) => {
     validationErrors.push({ msg: "Password cannot be blank." });
 
   if (validationErrors.length) {
-    console.log(validationErrors)
-
-    req.flash("errors", validationErrors);
-    return res.status(400).json({ errors: validationErrors });
+    return handleValidationErrors(validationErrors, req, res);
   }
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
@@ -32,15 +35,14 @@ exports.postLogin = (req, res, next) => {
     }
     if (!user) {
       req.flash("errors", info);
-      return res.redirect("http://localhost:5173/login");
+      return  res.redirect(`${process.env.FRONTEND_URL}/login`);
     }
     req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect( 'https://ucl-winner.onrender.com/home');
-
+      res.redirect(`${process.env.FRONTEND_URL}/home`);
     });
   })(req, res, next);
 };
@@ -59,10 +61,10 @@ exports.logout = (req, res) => {
 
 exports.getSignup = (req, res) => {
   if (req.user) {
-    return res.redirect("/home");
+    return res.redirect(`${process.env.FRONTEND_URL}/home`);
   }
   //    title: "Create Account",
-  res.redirect(req.session.returnTo || "http://localhost:5173/signup");
+  res.redirect(req.session.returnTo || `${process.env.FRONTEND_URL}/signup`);
 };
 
 exports.postSignup = (req, res, next) => {
@@ -77,8 +79,7 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({ msg: "Passwords do not match" });
 
   if (validationErrors.length) {
-    req.flash("errors", validationErrors);
-    return res.redirect("/login");
+    return handleValidationErrors(validationErrors, req, res);
   }
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
@@ -100,7 +101,7 @@ exports.postSignup = (req, res, next) => {
         req.flash("errors", {
           msg: "Account with that email address or username already exists.",
         });
-        return res.redirect("http://localhost:5173/signup");
+        return res.redirect(`${process.env.FRONTEND_URL}/signup`);
       }
       user.save((err) => {
         if (err) {
@@ -110,7 +111,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/home");
+          res.redirect(`${process.env.FRONTEND_URL}/home`);
         });
       });
     }
