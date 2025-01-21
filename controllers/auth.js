@@ -12,7 +12,7 @@ exports.getLogin = (req, res) => {
   if (req.user) { 
     return res.redirect(`${process.env.FRONTEND_URL}/home`);
 }
-return res.redirect(`${process.env.FRONTEND_URL}/login`);
+return res.redirect(`${process.env.FRONTEND_URL}/`);
 };
 
 exports.postLogin = (req, res, next) => {
@@ -35,7 +35,7 @@ exports.postLogin = (req, res, next) => {
     }
     if (!user) {
       req.flash("errors", info);
-      return  res.redirect(`${process.env.FRONTEND_URL}/login`);
+      return  res.redirect(`${process.env.FRONTEND_URL}/`);
     }
     req.logIn(user, (err) => {
       if (err) {
