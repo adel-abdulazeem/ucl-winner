@@ -82,7 +82,7 @@ cron.schedule("22 15 * * *", async () => {
 });
 
 //Server Running
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log(`Server running in ${process.env.NODE_ENV} on port: ${process.env.PORT}`);
 });
  
