@@ -95,6 +95,25 @@ cron.schedule("22 15 * * *", async () => {
   }
 });
 
+// Function to check server health
+const checkServerHealth = async () => {
+  try {
+    const response = await fetch(`https://ucl-winner.onrender.com`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("Server health check successful:", data);
+  } catch (error) {
+    console.error("Server health check failed:", error.message);
+  }
+};
+
+// Schedule health check every 5 minutes
+cron.schedule("*/5 * * * *", () => {
+  console.log("Running health check...");
+  checkServerHealth();
+});
 //Server Running
 app.listen(process.env.PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} on port: ${process.env.PORT}`);
