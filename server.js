@@ -24,12 +24,20 @@ require("./config/passport")(passport);
 connectDB();
 
 
-// Enable CORS for all routes
-app.use(cors({
-  origin: "http://localhost:5173", // Allow requests from this origin
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
-  credentials: true, // Allow cookies and credentials
-}));
+const allowedOrigins = ['http://localhost:5173/login', 'http://localhost:5173/home']; // Add your allowed origins here
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 //Static Folder
 app.use(express.static("public"));
