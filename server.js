@@ -23,7 +23,6 @@ require("./config/passport")(passport);
 //Connect To Database
 connectDB();
 
-
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/home']; 
 
 const corsOptions = {
@@ -35,11 +34,16 @@ const corsOptions = {
     }
   },
   credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
-
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
+// Enable CORS for all routes
+// app.use(cors({
+//   origin: "http://localhost:5173", // Allow requests from this origin
+//   methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
+//   credentials: true, // Allow cookies and credentials
+// }));
 
 //Static Folder
 app.use(express.static("public"));
@@ -58,7 +62,6 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // cookie: { secure: process.env.NODE_ENV === "production", httpOnly: true },
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
@@ -93,7 +96,7 @@ cron.schedule("22 15 * * *", async () => {
 });
 
 //Server Running
-app.listen(process.env.PORT || 4000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} on port: ${process.env.PORT}`);
 });
  
