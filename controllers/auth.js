@@ -6,7 +6,7 @@ exports.getLogin = (req, res) => {
   if (req.user) { 
     res.status(200).json('logged in user');
 }
-  res.redirect("http://localhost:5173/login");
+  res.redirect("https://subs-manage-system.netlify.app/login");
 };
 
 exports.postLogin = (req, res, next) => {
@@ -32,7 +32,7 @@ exports.postLogin = (req, res, next) => {
     }
     if (!user) {
       req.flash("errors", info);
-      return res.redirect("http://localhost:5173/login");
+      return res.redirect("https://subs-manage-system.netlify.app/login");
     }
     req.logIn(user, (err) => {
       if (err) {
@@ -62,7 +62,7 @@ exports.getSignup = (req, res) => {
     return res.status(200).json("successfull sign-up");
   }
   //    title: "Create Account",
-  res.redirect(req.session.returnTo || "http://localhost:5173/signup");
+  res.redirect(req.session.returnTo || "https://subs-manage-system.netlify.app/signup");
 };
 
 exports.postSignup = (req, res, next) => {
@@ -78,7 +78,7 @@ exports.postSignup = (req, res, next) => {
 
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
-    return res.redirect("http://localhost:5173/login");
+    return res.redirect("https://subs-manage-system.netlify.app/login");
   }
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
@@ -100,7 +100,7 @@ exports.postSignup = (req, res, next) => {
         req.flash("errors", {
           msg: "Account with that email address or username already exists.",
         });
-        return res.redirect("http://localhost:5173/signup");
+        return res.redirect("https://subs-manage-system.netlify.app/signup");
       }
       user.save((err) => {
         if (err) {

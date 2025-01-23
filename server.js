@@ -23,7 +23,7 @@ require("./config/passport")(passport);
 //Connect To Database
 connectDB();
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/home']; 
+const allowedOrigins = ['https://subs-manage-system.netlify.app', 'https://subs-manage-system.netlify.app/login', 'https://subs-manage-system.netlify.app/home']; 
 
 const corsOptions = {
   origin: function (origin, callback) {

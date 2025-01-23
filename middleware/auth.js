@@ -4,7 +4,7 @@ module.exports = {
       return next();
     } else {
       req.flash("error_msg", "Please log in to access this page"); // Flash message
-      res.redirect("http://localhost:5173/login");
+      res.redirect("https://subs-manage-system.netlify.app/login");
     }
   }
 };
