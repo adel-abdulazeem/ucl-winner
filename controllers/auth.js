@@ -1,7 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
-
+const Subscriber = require('../models/Subscriber')
 // Helper function for validation errors
 const handleValidationErrors = (validationErrors, req, res) => {
   req.flash("errors", validationErrors);
@@ -10,12 +10,12 @@ const handleValidationErrors = (validationErrors, req, res) => {
 
 exports.getLogin = (req, res) => {
   if (req.user) { 
-    return res.redirect(`${process.env.FRONTEND_URL}/home`);
+    return  res.status(200).json();    ;
 }
 return res.redirect(`${process.env.FRONTEND_URL}/`);
 };
 
-exports.postLogin = (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -42,7 +42,8 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(`${process.env.FRONTEND_URL}/home`);
+      
+      res.status(200).json(); 
     });
   })(req, res, next);
 };
