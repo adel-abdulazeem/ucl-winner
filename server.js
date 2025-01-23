@@ -24,7 +24,7 @@ require("./config/passport")(passport);
 connectDB();
 
 
-const allowedOrigins = ['http://localhost:5173']; 
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/home']; 
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -35,6 +35,8 @@ const corsOptions = {
     }
   },
   credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
