@@ -110,7 +110,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.status(200).json('existing');
+          res.status(200).json('existing user');
         });
       });
     }
