@@ -114,7 +114,7 @@ const checkServerHealth = async () => {
 };
 
 // Schedule health check every 5 minutes
-cron.schedule("*/5 * * * *", () => {
+cron.schedule("*/14 * * * *", () => {
   console.log("Running health check...");
   checkServerHealth();
 });
